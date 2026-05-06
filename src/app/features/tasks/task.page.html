@@ -1,0 +1,108 @@
+<ion-card>
+  <ion-card-header>
+    <ion-card-title>Categorías</ion-card-title>
+  </ion-card-header>
+
+  <ion-card-content>
+
+    <ion-button size="small" (click)="createCategory()">
+      + Nueva categoría
+    </ion-button>
+
+    <ion-list>
+      <ion-item *ngFor="let c of categoryService.categories()">
+
+        <ion-label>{{ c.name }}</ion-label>
+
+        <ion-button
+          fill="clear"
+          size="small"
+          (click)="editCategory(c.id, c.name)">
+          Editar
+        </ion-button>
+
+        <ion-button
+          color="danger"
+          fill="clear"
+          size="small"
+          (click)="deleteCategory(c.id)">
+          Eliminar
+        </ion-button>
+
+      </ion-item>
+    </ion-list>
+
+  </ion-card-content>
+</ion-card>
+
+<ion-header>
+  <ion-toolbar>
+    <ion-title>To-Do Pro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+
+  <!-- Crear tarea -->
+  <ion-item>
+    <ion-input
+      [value]="newTask()"
+      (ionInput)="newTask.set($event.detail.value || '')"
+      placeholder="Nueva tarea">
+    </ion-input>
+  </ion-item>
+
+  <!-- Categoría -->
+  <ion-item>
+    <ion-select
+      [value]="selectedCategory()"
+      (ionChange)="selectedCategory.set($event.detail.value)">
+
+      <ion-select-option [value]="null">Sin categoría</ion-select-option>
+
+      <ion-select-option *ngFor="let c of categoryService.categories()"
+        [value]="c.id">
+        {{ c.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-button expand="full" (click)="addTask()">
+    Agregar
+  </ion-button>
+
+  <!-- Filtro -->
+  <ion-item>
+    <ion-select (ionChange)="setFilter($event.detail.value)">
+      <ion-select-option [value]="null">Todas</ion-select-option>
+      <ion-select-option *ngFor="let c of categoryService.categories()"
+        [value]="c.id">
+        {{ c.name }}
+      </ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <!-- Lista -->
+  <ion-list>
+    <ion-item *ngFor="let task of taskService.tasks()">
+
+      <ion-checkbox
+        slot="start"
+        [checked]="task.completed"
+        (ionChange)="taskService.toggle(task.id)">
+      </ion-checkbox>
+
+      <ion-label
+        [style.textDecoration]="task.completed ? 'line-through' : 'none'">
+        {{ task.title }}
+      </ion-label>
+
+      <ion-button color="danger" fill="clear"
+        (click)="taskService.delete(task.id)">
+        Eliminar
+      </ion-button>
+
+    </ion-item>
+  </ion-list>
+
+</ion-content>
