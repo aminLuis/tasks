@@ -1,0 +1,20 @@
+ion-tab-bar {
+  --background: #1c1c1e;
+  border-top: 1px solid rgba(255,255,255,0.05);
+}
+
+ion-tab-button {
+  --color: #aaa;
+  --color-selected: #ff3b3b;
+  font-size: 12px;
+}
+
+ion-toolbar {
+  --background: #0f0f0f;
+  --border-color: transparent;
+}
+
+ion-title {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
