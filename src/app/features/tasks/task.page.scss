@@ -1,0 +1,34 @@
+ion-content {
+  --background: #0f0f0f;
+}
+
+/* Inputs */
+ion-item {
+  --background: #1c1c1e;
+  border-radius: 12px;
+  margin-bottom: 10px;
+}
+
+/* Botón agregar */
+ion-button {
+  margin-top: 10px;
+  border-radius: 12px;
+  font-weight: 600;
+}
+
+/* Lista */
+ion-list {
+  margin-top: 15px;
+}
+
+/* Item tarea */
+ion-item {
+  margin-bottom: 8px;
+  border-radius: 12px;
+}
+
+/* Texto completado */
+.completed {
+  text-decoration: line-through;
+  opacity: 0.6;
+}

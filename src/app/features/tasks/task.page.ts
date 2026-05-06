@@ -1,9 +1,8 @@
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { TaskService } from './task.service';
 import { CategoryService } from '../categories/category.service';
-import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonCheckbox, IonLabel, IonCard, IonCardHeader, IonCardTitle, IonCardContent } from "@ionic/angular/standalone";
+import { IonHeader, IonToolbar, IonTitle, IonContent, IonItem, IonInput, IonSelect, IonSelectOption, IonButton, IonList, IonCheckbox, IonLabel } from "@ionic/angular/standalone";
 import { CommonModule } from '@angular/common';
-import { AlertController } from '@ionic/angular';
 
 @Component({
   selector: 'app-task',
@@ -23,11 +22,7 @@ import { AlertController } from '@ionic/angular';
     IonButton,
     IonList,
     IonCheckbox,
-    IonLabel,
-    IonCard,
-    IonCardHeader,
-    IonCardTitle,
-    IonCardContent
+    IonLabel
 ],
 
 })
@@ -36,11 +31,8 @@ export class TaskPage {
   newTask = signal('');
   selectedCategory = signal<string | null>(null);
 
-  constructor(
-    public taskService: TaskService,
-    public categoryService: CategoryService,
-    private alertCtrl: AlertController
-  ) { }
+  taskService = inject(TaskService);
+  categoryService = inject(CategoryService);
 
   addTask() {
     const value = this.newTask().trim();
@@ -54,67 +46,5 @@ export class TaskPage {
     this.taskService.selectedCategory.set(categoryId);
   }
 
-  async createCategory() {
-    const alert = await this.alertCtrl.create({
-      header: 'Nueva categoría',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          placeholder: 'Nombre'
-        }
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Guardar',
-          handler: (data) => {
-            const name = (data?.name || '').trim();
-            if (!name) return false;
-            this.categoryService.add(name);
-            return true;
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  async editCategory(id: string, currentName: string) {
-    const alert = await this.alertCtrl.create({
-      header: 'Editar categoría',
-      inputs: [
-        {
-          name: 'name',
-          type: 'text',
-          value: currentName
-        }
-      ],
-      buttons: [
-        { text: 'Cancelar', role: 'cancel' },
-        {
-          text: 'Actualizar',
-          handler: (data) => {
-            const name = (data?.name || '').trim();
-            if (!name) return false;
-
-            this.categoryService.update({ id, name });
-            return true;
-          }
-        }
-      ]
-    });
-
-    await alert.present();
-  }
-
-  deleteCategory(id: string) {
-    this.categoryService.delete(id);
-
-    if (this.taskService.selectedCategory() === id) {
-      this.taskService.selectedCategory.set(null);
-    }
-  }
-
 }
+

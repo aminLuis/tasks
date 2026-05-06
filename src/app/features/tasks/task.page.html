@@ -1,43 +1,6 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Categorías</ion-card-title>
-  </ion-card-header>
-
-  <ion-card-content>
-
-    <ion-button size="small" (click)="createCategory()">
-      + Nueva categoría
-    </ion-button>
-
-    <ion-list>
-      <ion-item *ngFor="let c of categoryService.categories()">
-
-        <ion-label>{{ c.name }}</ion-label>
-
-        <ion-button
-          fill="clear"
-          size="small"
-          (click)="editCategory(c.id, c.name)">
-          Editar
-        </ion-button>
-
-        <ion-button
-          color="danger"
-          fill="clear"
-          size="small"
-          (click)="deleteCategory(c.id)">
-          Eliminar
-        </ion-button>
-
-      </ion-item>
-    </ion-list>
-
-  </ion-card-content>
-</ion-card>
-
 <ion-header>
   <ion-toolbar>
-    <ion-title>To-Do Pro</ion-title>
+    <ion-title>Tareas</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -84,7 +47,7 @@
 
   <!-- Lista -->
   <ion-list>
-    <ion-item *ngFor="let task of taskService.tasks()">
+    <ion-item *ngFor="let task of taskService.tasks()" class="task-item">
 
       <ion-checkbox
         slot="start"
@@ -92,14 +55,13 @@
         (ionChange)="taskService.toggle(task.id)">
       </ion-checkbox>
 
-      <ion-label
-        [style.textDecoration]="task.completed ? 'line-through' : 'none'">
+      <ion-label [class.completed]="task.completed">
         {{ task.title }}
       </ion-label>
 
       <ion-button color="danger" fill="clear"
         (click)="taskService.delete(task.id)">
-        Eliminar
+        ✕
       </ion-button>
 
     </ion-item>
